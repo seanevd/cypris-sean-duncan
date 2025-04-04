@@ -1,3 +1,9 @@
+<label for="core-search">Search</label>
+<input type="text" id="core-search" [(ngModel)]="coreSearchTerm" />
+<ul>
 @for (coreItem of coreItems(); track coreItem.id) {
-    <p>{{coreItem.title}}</p>
+    <li>
+        <p>{{coreItem.title}}</p>
+    </li>
 }
+</ul>

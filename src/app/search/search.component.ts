@@ -1,21 +1,33 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { CoreApiService } from '../services/core-api.service';
 import { catchError } from 'rxjs';
 import { Work } from '../model/core-api.type';
+import { FormsModule } from '@angular/forms';
+import { debouncedSignal } from '../utils/signal-utils';
 
 @Component({
   selector: 'app-search',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
   coreApiService = inject(CoreApiService);
   coreItems = signal<Work[]>([]);
+  coreSearchTerm = signal('');
+  searchQuery = debouncedSignal(this.coreSearchTerm, 300, '');
 
-  ngOnInit(): void {
+  constructor() {
+    effect(() => {
+      if (!!this.searchQuery()) {
+        this.searchCoreApi(this.searchQuery());
+      }
+    });
+  }
+
+  searchCoreApi = (searchTerm: string) => {
     this.coreApiService
-      .searchPapers('drone', 15)
+      .searchPapers(searchTerm, 15)
       .pipe(
         catchError((err) => {
           // note: look in to error handling
