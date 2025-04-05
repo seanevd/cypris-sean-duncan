@@ -1,5 +1,13 @@
 <label for="core-search">Search</label>
 <input type="text" id="core-search" [(ngModel)]="coreSearchTerm" />
+<label for="page-size">Limit Page Size</label>
+<select name="page-size" id="page-size" [(ngModel)]="corePageSize">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+    <option value="25">25</option>
+    <option value="50">50</option>
+</select>
 <ul>
 @for (coreItem of coreItems(); track coreItem.id) {
     <li>

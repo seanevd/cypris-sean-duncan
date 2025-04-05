@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { CoreEntity } from '../model/core-api.type';
+import { CORE_API_REQUEST_LIMIT } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class CoreApiService {
 
   constructor(private http: HttpClient) { }
 
-  searchPapers(query: string, pageSize: number = 10): Observable<CoreEntity> {
+  searchPapers(query: string, pageSize: number = CORE_API_REQUEST_LIMIT): Observable<CoreEntity> {
     const params = new HttpParams()
       .set('q', query)
       .set('limit', pageSize.toString());

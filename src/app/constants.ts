@@ -1,0 +1,1 @@
+export const CORE_API_REQUEST_LIMIT = 10;
